@@ -21,7 +21,9 @@ app.use(
         "http://localhost:4173",
       "http://localhost:5173",
       "https://abhaypratapsingh-two.vercel.app"
+      
     ],
+    methods: ['GET','POST','PUT','DELETE','OPTIONS'],
     credentials: true,
   })
 );
