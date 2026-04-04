@@ -1,0 +1,49 @@
+.swiper-button-prev,
+.swiper-button-next {
+    color: #34d399 !important;
+    /* emerald */
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+    color: #34d399 !important;
+    font-size: 22px !important;
+    font-weight: bold;
+}
+
+
+/* ❌ Hide arrows on mobile & tablet */
+@media (max-width: 1023px) {
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        display: none !important;
+    }
+}
+
+/* ✅ Arrow color fix */
+.swiper-button-prev,
+.swiper-button-next {
+    color: #34d399 !important;
+}
+
+/* ✅ Arrow icon styling */
+.swiper-button-prev::after,
+.swiper-button-next::after {
+    color: #34d399 !important;
+    font-size: 22px !important;
+    font-weight: bold;
+}
+
+/* 🔥 Optional smooth hover */
+.swiper-button-prev,
+.swiper-button-next {
+    opacity: 0.6;
+    transition: all 0.4s ease;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}

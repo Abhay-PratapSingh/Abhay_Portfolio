@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+    color: #34d399 !important;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+    color: #34d399 !important;
+    font-size: 22px !important;
+    font-weight: bold;
+}
+
+/* ❌ Hide arrows on mobile & tablet */
+@media (max-width: 1023px) {
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        display: none !important;
+    }
+}
+
+/* 🔥 Optional smooth hover */
+.swiper-button-prev,
+.swiper-button-next {
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-scroll {
+    animation: scroll 25s linear infinite;
+}
+
+.animate-scroll:hover {
+    animation-play-state: paused;
+}
+
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-scroll {
+    animation: scroll 10s linear infinite;
+}
+
+/* Device-based speed fix */
+@media (max-width: 1023px) {
+    .animate-scroll {
+        animation-duration: 10s;
+    }
+}
+
+@media (max-width: 640px) {
+    .animate-scroll {
+        animation-duration: 4s;
+    }
+}
