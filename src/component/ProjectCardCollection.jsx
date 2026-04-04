@@ -36,7 +36,7 @@ const ProjectCardCollection = () => {
                     image={image2}
                     title="Personal Porfolio"
                     demo="/"
-                    github="https://pradeepjewellers.vercel.app/"
+                    github="https://github.com/Abhay-PratapSingh/Abhay_Portfolio"
                     details="/"
 
 
