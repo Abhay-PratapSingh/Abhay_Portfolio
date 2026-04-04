@@ -7,7 +7,12 @@ const authRoutes = require("./routes/AuthRoutes");
 dotenv.config();
 connectDB();
 
+
+
+
 const app = express();
+
+
 
 // Middleware
 app.use(
@@ -15,7 +20,7 @@ app.use(
     origin: [
         "http://localhost:4173",
       "http://localhost:5173",
-      "https://your-vercel-url.vercel.app"
+      "https://abhaypratapsingh-two.vercel.app/"
     ],
     credentials: true,
   })
