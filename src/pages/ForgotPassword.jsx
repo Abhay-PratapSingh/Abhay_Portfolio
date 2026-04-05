@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { FaKey, FaEye, FaEyeSlash } from "react-icons/fa";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import axios from "axios";
+import { toast } from 'react-toastify'; // ✅ added Toastify
 
 const ForgotPassword = () => {
+
+    const navigate = useNavigate(); // ✅ for redirect after success
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -15,39 +18,50 @@ const ForgotPassword = () => {
     const handleReset = async (e) => {
         e.preventDefault();
 
-        // ✅ SAME EMAIL VALIDATION AS LOGIN
+        // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        // ✅ SAME PASSWORD VALIDATION AS LOGIN (min 6 chars + 1 special char)
-
-        const passwordRegex = /^(?=.*[!@#$%^&*()_+=[\]{};':"\\|,.<>/?-]).{6,}$/;
-
         if (!emailRegex.test(email)) {
-            alert("Please enter a valid email");
+            toast.error("Please enter a valid email", { autoClose: 2000 });
             return;
         }
 
+        // Password validation
+        const passwordRegex = /^(?=.*[!@#$%^&*()_+=[\]{};':"\\|,.<>/?-]).{6,}$/;
         if (!passwordRegex.test(newPassword)) {
-            alert("Password must be at least 6 characters and include 1 special character");
+            toast.error("Password must be at least 6 characters and include 1 special character", { autoClose: 2000 });
             return;
         }
 
+        // Confirm password match
         if (newPassword !== confirmPassword) {
-            alert("Passwords do not match");
+            toast.error("Passwords do not match", { autoClose: 2000 });
             return;
         }
 
         try {
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, {
-                email,
-                newPassword,
-                confirmPassword
+            const res = await axios.post(
+                `${import.meta.env.VITE_API_URL}/api/auth/forgot-password`,
+                { email, newPassword, confirmPassword }
+            );
+
+            // ✅ Success Toast
+            toast.success(res.data.msg, {
+                className: "bg-emerald-500 text-white font-bold shadow-lg rounded-xl p-4",
+                bodyClassName: "text-sm sm:text-base",
+                autoClose: 2000,
+                position: "top-center",
             });
 
-            alert(res.data.msg);
+            // ✅ Redirect to Login after 2 seconds
+            setTimeout(() => {
+                navigate("/Login");
+            }, 2000);
 
         } catch (err) {
-            alert(err.response?.data?.msg || "Something went wrong");
+            toast.error(err.response?.data?.msg || "Something went wrong", {
+                autoClose: 2000,
+                position: "top-center",
+            });
         }
     };
 
