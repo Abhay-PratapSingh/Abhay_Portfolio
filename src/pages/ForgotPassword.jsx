@@ -48,18 +48,18 @@ const ForgotPassword = () => {
             toast.success(res.data.msg, {
                 className: "bg-emerald-500 text-white font-bold shadow-lg rounded-xl p-4",
                 bodyClassName: "text-sm sm:text-base",
-                autoClose: 2000,
+                autoClose: 3000,
                 position: "top-center",
             });
 
             // ✅ Redirect to Login after 2 seconds
             setTimeout(() => {
                 navigate("/Login");
-            }, 2000);
+            }, 3000);
 
         } catch (err) {
             toast.error(err.response?.data?.msg || "Something went wrong", {
-                autoClose: 2000,
+                autoClose: 3000,
                 position: "top-center",
             });
         }

@@ -48,14 +48,14 @@ const SignUp = () => {
             toast.success(res.data.msg, {
                 className: "bg-emerald-500 text-white font-bold shadow-lg rounded-xl p-4",
                 bodyClassName: "text-sm sm:text-base",
-                autoClose: 2000,
+                autoClose: 3000,
                 position: "top-center",
                 onClose: () => navigate("/Login") // ✅ redirect after toast
             });
 
         } catch (err) {
             toast.error(err.response?.data?.msg || "Error", {
-                autoClose: 2000,
+                autoClose: 3000,
                 position: "top-center",
             });
         }

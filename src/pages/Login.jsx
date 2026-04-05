@@ -23,7 +23,7 @@ const Login = () => {
             toast.success(res.data.msg, {
                 className: "bg-emerald-500 text-white font-bold shadow-lg rounded-xl p-4",
                 bodyClassName: "text-sm sm:text-base",
-                autoClose: 2000,
+                autoClose: 3000,
                 position: "top-center",
             });
 
@@ -31,13 +31,13 @@ const Login = () => {
             localStorage.setItem("token", res.data.token);
             setTimeout(() => {
                 navigate("/"); // redirect to home
-            }, 2000);
+            }, 3000);
 
         } catch (err) {
             toast.error(err.response?.data?.msg || "Login failed", {
                 className: "bg-red-500 text-white font-bold shadow-lg rounded-xl p-4",
                 bodyClassName: "text-sm sm:text-base",
-                autoClose: 2000,
+                autoClose: 3000,
                 position: "top-center",
             });
         }
