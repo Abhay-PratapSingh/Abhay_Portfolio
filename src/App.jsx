@@ -8,11 +8,14 @@ import { Route, Routes } from 'react-router-dom'
 import Layout from './Layout'
 import SignUp from './pages/SignUp'
 import ForgotPassword from './pages/ForgotPassword'
-import ScrollToSection from './component/ScrollToSection' // ✅ added
+import ScrollToSection from './component/ScrollToSection'
+
+// ✅ toastify import
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
-
     <>
       <ScrollToSection /> {/* ✅ added */}
 
@@ -22,15 +25,22 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/About" element={<About />} />
 
-          {/* ❌ removed Project route */}
-
           <Route path="/Login" element={<Login />} />
-
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/ForgotPassword" element={<ForgotPassword />} />
 
         </Route >
       </Routes>
+
+      {/* ✅ Toast container for all popups */}
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        theme="dark"
+      />
     </>
   )
 }

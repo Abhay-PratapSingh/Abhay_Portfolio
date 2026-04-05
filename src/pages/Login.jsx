@@ -1,17 +1,15 @@
 import React, { useState } from 'react'
 import { FaUserAlt, FaEye, FaEyeSlash } from "react-icons/fa";
-import { NavLink } from 'react-router-dom';
-import axios from "axios"; // ✅ added
+import { NavLink, useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { toast } from 'react-toastify';
 
 const Login = () => {
-
     const [showPassword, setShowPassword] = useState(false);
-
-    // ✅ added states
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate(); // for redirect
 
-    // ✅ added function
     const handleLogin = async (e) => {
         e.preventDefault();
 
@@ -21,13 +19,27 @@ const Login = () => {
                 password
             });
 
-            alert(res.data.msg);
+            // ✅ Tailwind-styled toast popup
+            toast.success(res.data.msg, {
+                className: "bg-emerald-500 text-white font-bold shadow-lg rounded-xl p-4",
+                bodyClassName: "text-sm sm:text-base",
+                autoClose: 2000,
+                position: "top-center",
+            });
 
-            // optional: token store
+            // ✅ store token and redirect after 2 sec
             localStorage.setItem("token", res.data.token);
+            setTimeout(() => {
+                navigate("/"); // redirect to home
+            }, 2000);
 
         } catch (err) {
-            alert(err.response?.data?.msg || "Login failed");
+            toast.error(err.response?.data?.msg || "Login failed", {
+                className: "bg-red-500 text-white font-bold shadow-lg rounded-xl p-4",
+                bodyClassName: "text-sm sm:text-base",
+                autoClose: 2000,
+                position: "top-center",
+            });
         }
     };
 
@@ -38,42 +50,35 @@ const Login = () => {
                 User Login
             </h1>
 
-            <FaUserAlt className="p-2  text-green-400 fill-green-400
+            <FaUserAlt className="p-2 text-green-400 fill-green-400
             w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-28 lg:w-32 lg:h-32" />
 
             <div className='flex flex-col
             w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl text-emerald-400 mt-6 border border-emerald-400 rounded-xl 
             hover:shadow-lg hover:shadow-emerald-500/20 
             active:shadow-lg active:shadow-emerald-500/20
-            
             transition-all duration-300 bg-slate-900'>
 
-                {/* ✅ form submit added */}
                 <form onSubmit={handleLogin} className='w-full flex flex-col p-3 sm:p-5 md:p-6 items-center'>
 
-                    {/* Email */}
                     <input
                         type="email"
                         placeholder='Enter your Email Here'
-                        value={email} // ✅ added
-                        onChange={(e) => setEmail(e.target.value)} // ✅ added
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         className='p-2 mt-2 rounded-md border border-gray-600 bg-slate-800 text-white 
-                        my-2 w-full text-xs sm:text-sm md:text-base lg:text-lg outline-none focus:border-emerald-400
-                        '
+                        my-2 w-full text-xs sm:text-sm md:text-base lg:text-lg outline-none focus:border-emerald-400'
                     />
 
-                    {/* Password */}
                     <div className="relative w-full">
-
                         <input
                             type={showPassword ? "text" : "password"}
                             placeholder='Enter your Password Here'
-                            value={password} // ✅ added
-                            onChange={(e) => setPassword(e.target.value)} // ✅ added
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             className='p-2 my-2 mb-4 rounded-md border border-gray-600 bg-slate-800 text-white 
                             w-full text-xs sm:text-sm md:text-base lg:text-lg outline-none focus:border-emerald-400
-                            pr-10
-                           '
+                            pr-10'
                         />
 
                         <span
@@ -82,7 +87,6 @@ const Login = () => {
                         >
                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </span>
-
                     </div>
 
                     <NavLink
@@ -92,7 +96,6 @@ const Login = () => {
                         Forgot Password
                     </NavLink>
 
-                    {/* ✅ button type changed */}
                     <button
                         type="submit"
                         className='p-2 
