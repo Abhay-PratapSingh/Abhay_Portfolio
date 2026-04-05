@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FaUserPlus, FaEye, FaEyeSlash } from "react-icons/fa";
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from "axios";
-import { toast } from 'react-toastify'; // ✅ added Toastify
+import { toast } from 'react-toastify'; // ✅ Toastify
 
 const SignUp = () => {
 
@@ -18,21 +18,21 @@ const SignUp = () => {
     const handleSignup = async (e) => {
         e.preventDefault();
 
-        // Email validation
+        // ✅ Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             toast.error("Please enter a valid email", { autoClose: 2000 });
             return;
         }
 
-        // Password validation
+        // ✅ Password validation (min 6 chars + 1 special char)
         const passwordRegex = /^(?=.*[!@#$%^&*()_+=[\]{};':"\\|,.<>/?-]).{6,}$/;
         if (!passwordRegex.test(password)) {
             toast.error("Password must be at least 6 characters and include 1 special character", { autoClose: 2000 });
             return;
         }
 
-        // Confirm password match
+        // ✅ Confirm password match
         if (password !== confirmPassword) {
             toast.error("Passwords do not match", { autoClose: 2000 });
             return;
@@ -44,18 +44,14 @@ const SignUp = () => {
                 { email, password, confirmPassword }
             );
 
-            // ✅ Success Toast
+            // ✅ Success Toast with redirect after toast finishes
             toast.success(res.data.msg, {
                 className: "bg-emerald-500 text-white font-bold shadow-lg rounded-xl p-4",
                 bodyClassName: "text-sm sm:text-base",
                 autoClose: 2000,
                 position: "top-center",
+                onClose: () => navigate("/Login") // ✅ redirect after toast
             });
-
-            // ✅ Redirect after 2 seconds
-            setTimeout(() => {
-                navigate("/Login");
-            }, 2000);
 
         } catch (err) {
             toast.error(err.response?.data?.msg || "Error", {
