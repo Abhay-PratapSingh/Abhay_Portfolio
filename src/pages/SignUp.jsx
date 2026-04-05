@@ -1,57 +1,67 @@
 import React, { useState } from 'react'
 import { FaUserPlus, FaEye, FaEyeSlash } from "react-icons/fa";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import axios from "axios";
+import { toast } from 'react-toastify'; // ✅ added Toastify
 
 const SignUp = () => {
+
+    const navigate = useNavigate(); // ✅ for redirect after success
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    // 🔥 ADDED STATES
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    // 🔥 HANDLE SIGNUP
     const handleSignup = async (e) => {
         e.preventDefault();
 
-        // ✅ Email validation
+        // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            alert("Please enter a valid email");
+            toast.error("Please enter a valid email", { autoClose: 2000 });
             return;
         }
 
-        // ✅ Password validation (min 6 chars + 1 special char)
-
+        // Password validation
         const passwordRegex = /^(?=.*[!@#$%^&*()_+=[\]{};':"\\|,.<>/?-]).{6,}$/;
         if (!passwordRegex.test(password)) {
-            alert("Password must be at least 6 characters and include 1 special character");
+            toast.error("Password must be at least 6 characters and include 1 special character", { autoClose: 2000 });
             return;
         }
 
-        // ✅ Confirm password match
+        // Confirm password match
         if (password !== confirmPassword) {
-            alert("Passwords do not match");
+            toast.error("Passwords do not match", { autoClose: 2000 });
             return;
         }
 
         try {
             const res = await axios.post(
                 `${import.meta.env.VITE_API_URL}/api/auth/signup`,
-                {
-                    email,
-                    password,
-                    confirmPassword
-                }
+                { email, password, confirmPassword }
             );
 
-            alert(res.data.msg);
+            // ✅ Success Toast
+            toast.success(res.data.msg, {
+                className: "bg-emerald-500 text-white font-bold shadow-lg rounded-xl p-4",
+                bodyClassName: "text-sm sm:text-base",
+                autoClose: 2000,
+                position: "top-center",
+            });
+
+            // ✅ Redirect after 2 seconds
+            setTimeout(() => {
+                navigate("/Login");
+            }, 2000);
 
         } catch (err) {
-            alert(err.response?.data?.msg || "Error");
+            toast.error(err.response?.data?.msg || "Error", {
+                autoClose: 2000,
+                position: "top-center",
+            });
         }
     };
 
@@ -69,10 +79,8 @@ const SignUp = () => {
                    w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl text-emerald-400 mt-6 border border-emerald-400 rounded-xl 
                    hover:shadow-lg hover:shadow-emerald-500/20 
                    active:shadow-lg active:shadow-emerald-500/20
-                  
                    transition-all duration-300 bg-slate-900'>
 
-                {/* 🔥 FORM SUBMIT ADDED */}
                 <form onSubmit={handleSignup} className='w-full flex flex-col px-3 sm:px-5 md:px-6 items-center'>
 
                     {/* Email */}
@@ -82,8 +90,7 @@ const SignUp = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className='p-2 mt-2 rounded-md border border-gray-600 bg-slate-800 text-white 
-                               my-2 w-full text-xs sm:text-sm md:text-base lg:text-lg outline-none focus:border-emerald-400
-                             '
+                               my-2 w-full text-xs sm:text-sm md:text-base lg:text-lg outline-none focus:border-emerald-400'
                     />
 
                     {/* Password */}
@@ -95,10 +102,8 @@ const SignUp = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             className='p-2 my-2 mb-4 rounded-md border border-gray-600 bg-slate-800 text-white 
                                w-full text-xs sm:text-sm md:text-base lg:text-lg outline-none focus:border-emerald-400
-                               pr-10
-                              '
+                               pr-10'
                         />
-
                         <span
                             onClick={() => setShowPassword(!showPassword)}
                             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
@@ -116,10 +121,8 @@ const SignUp = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             className='p-2 my-1 mb-4 rounded-md border border-gray-600 bg-slate-800 text-white 
                                w-full text-xs sm:text-sm md:text-base lg:text-lg outline-none focus:border-emerald-400
-                               pr-10
-                              '
+                               pr-10'
                         />
-
                         <span
                             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
@@ -128,11 +131,9 @@ const SignUp = () => {
                         </span>
                     </div>
 
-                    {/* 🔥 BUTTON FIX */}
                     <button
                         type="submit"
-                        className='p-2 
-                               w-full sm:w-fit text-xs sm:text-sm md:text-base lg:text-lg my-2 rounded-xl border border-emerald-400 text-green-400 
+                        className='p-2 w-full sm:w-fit text-xs sm:text-sm md:text-base lg:text-lg my-2 rounded-xl border border-emerald-400 text-green-400 
                                hover:text-white hover:bg-emerald-500 
                                active:text-white active:bg-emerald-500
                                hover:scale-105 active:scale-95
